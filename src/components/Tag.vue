@@ -1,28 +1,17 @@
 <template>
-  <span @click="selecionaTag" :class="[tagClicada ? 'tag_clicked' : 'tag', ativa ? 'tag_clicked' : 'tag']">
-    {{ texto }}
+  <span :class="[ativa ? 'tag_clicked' : 'tag']">
+    {{ nomeIngrediente }}
   </span>
 </template>
 
 <script lang="ts">
 export default {
   props: {
-    texto: {
+    nomeIngrediente: {
       type: String,
       required: true,
     },
     ativa: { type: Boolean },
-  },
-  data() {
-    return {
-      tagClicada: false,
-    };
-  },
-  methods: {
-    selecionaTag() {
-      this.tagClicada = !this.tagClicada;
-      console.log(this.tagClicada);
-    },
   },
 };
 </script>
