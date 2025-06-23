@@ -1,48 +1,43 @@
 <template>
-  <main class="conteudo-principal">
-    <SuaLista :ingredientes="ingredientes" />
+    <section>
+      <span class="subtitulo-lgs sua-lista-texto"> Sua lista: </span>
 
-    <selecionar-ingredientes 
-      v-if="conteudo === 'SelecionarIngredientes'"
-      @ingredienteSelecionado="lidandoComIngredienteSelecionado($event)"
-      @buscandoReceitas="mudandoConteudo('MostrarReceitas')"
-    />
+      <ul v-if="ingredientes.length !== 0" class="ingredientes-sua-lista">
+        <li
+          v-for="ingrediente in ingredientes"
+          :key="ingrediente"
+          class="ingrediente"
+        >
+          <Tag :nomeIngrediente="ingrediente" :ativa="true" />
+        </li>
+      </ul>
 
-    <MostrarReceitas v-else/>
-  </main>
+      <p v-else class="paragrafo lista-vazia">
+        <img
+          src="../assets/images/icones/lista-vazia.svg"
+          alt="icone de pesquisa"
+        />
+        Sua lista está vazia, selecione ingredientes para iniciar.
+      </p>
+
+
+    </section>
 </template>
 
 <script lang="ts">
-import SelecionarIngredientes from './SelecionarIngredientes.vue';
-import SuaLista from './SuaLista.vue';
-import MostrarReceitas from './MostrarReceitas.vue';
-
-type Pagina = 'SelecionarIngredientes' | 'MostrarReceitas';
-
+import Tag from './Tag.vue';
 export default {
-  data () {
-    return {
-      ingredientes: [],
-      conteudo: 'SelecionarIngredientes' as Pagina
-    }
-  },
-  methods: {
-    lidandoComIngredienteSelecionado(ingrediente: String){
-      if(this.ingredientes.includes(ingrediente as string)){
-        this.ingredientes = this.ingredientes.filter(ingredienteAtual => ingredienteAtual !== ingrediente);
-        return
-      }        
-      this.ingredientes.push(ingrediente as string);
+    components: {
+        Tag,
     },
-
-    mudandoConteudo(pagina: Pagina){
-      this.conteudo = pagina;
+    props: {
+        ingredientes: {
+            type: Array,
+            required: true
+        }
     }
-  },
-  components: { SelecionarIngredientes, SuaLista, MostrarReceitas },
 }
 </script>
-
 
 <style scoped>
 .conteudo-principal {

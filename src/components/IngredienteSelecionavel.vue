@@ -1,5 +1,11 @@
 <template>
-   <Tag class="ingredinteSelecionavel" @click="selecionaTag" :nomeIngrediente="nomeIngrediente" :ativa="tagClicada"/>
+  <Tag 
+  class="ingredinteSelecionavel" 
+  @click="selecionaTag" 
+  :nomeIngrediente="nomeIngrediente" 
+  :ativa="tagClicada"
+  />
+  
 </template>
 
 <script lang="ts">
@@ -21,13 +27,16 @@ export default {
   methods: {
     selecionaTag() {
       this.tagClicada = !this.tagClicada;
+
+      this.$emit('ingredienteSelecionado', this.nomeIngrediente)
     },
   },
+  emits: ['ingredienteSelecionado'],
 };
 </script>
 
 <style scoped>
-.ingredinteSelecionavel{
-    cursor: pointer;
+.ingredinteSelecionavel {
+  cursor: pointer;
 }
 </style>

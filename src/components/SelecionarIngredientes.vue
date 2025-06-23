@@ -9,32 +9,41 @@
 
     <ul class="categorias">
       <li v-for="categoria in categorias" :key="categoria.nome">
-        <card-categoria :categorias="categoria"/>
+        <card-categoria 
+        :categorias="categoria"
+        @ingredienteSelecionado="$emit('ingredienteSelecionado', $event)"
+        />
       </li>
     </ul>
 
-    <p class="paragrafo dica">
+    <p class="paragrafo">
       *Atenção: consideramos que você tem em casa sal, pimenta e água.
     </p>
   </section>
+
+  <BotaoPrincipal :textoBotao="textoBotao" @click="$emit('buscandoReceitas')"/>
 </template>
 
 <script lang="ts">
 import { obterCategorias } from '@/http/categorias'
-import type ICategoria from '@/interfaces/ICategoria'
+import type ICategoria from '@/http/interfaces/ICategoria'
 import CardCategoria from './CardCategoria.vue';
+import BotaoPrincipal from './BotaoPrincipal.vue'
+
 export default {
-  components: {CardCategoria},
+  components: {CardCategoria, BotaoPrincipal},
   data() {
     return {
       categorias: [] as ICategoria[],
+      textoBotao: 'Buscar Receitas!',
     };
   },
   
   async created(){
     this.categorias = await obterCategorias()
     
-  }
+  },
+  emits: ['ingredienteSelecionado', 'buscandoReceitas'],
 };
 </script>
 

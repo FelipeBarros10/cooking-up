@@ -8,7 +8,10 @@
 
     <ul class="categoria_ingredientes">
       <li v-for="ingrediente in categorias.ingredientes" :key="ingrediente">
-        <IngrendienteSelecionavel :nomeIngrediente="ingrediente" />
+        <IngrendienteSelecionavel 
+        :nomeIngrediente="ingrediente" 
+        @ingredienteSelecionado ="$emit('ingredienteSelecionado', $event)"
+        />
       </li>
     </ul>
   </article>
@@ -25,8 +28,9 @@ export default {
     categorias: {
       type: Object as PropType<ICategoria>,
       required: true
-    }
-  }
+    },
+  },
+  emits: ['ingredienteSelecionado'],
 }
 </script>
 
