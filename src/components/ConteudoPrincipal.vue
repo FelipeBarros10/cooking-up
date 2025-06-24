@@ -2,13 +2,16 @@
   <main class="conteudo-principal">
     <SuaLista :ingredientes="ingredientes" />
 
-    <selecionar-ingredientes 
-      v-if="conteudo === 'SelecionarIngredientes'"
-      @ingredienteSelecionado="lidandoComIngredienteSelecionado($event)"
-      @buscandoReceitas="mudandoConteudo('MostrarReceitas')"
-    />
+    <keep-alive include="SelecionarIngredientes">
+      <selecionar-ingredientes 
+        v-if="conteudo === 'SelecionarIngredientes'"
+        @ingredienteSelecionado="lidandoComIngredienteSelecionado($event)"
+        @buscandoReceitas="mudandoConteudo('MostrarReceitas')"
+      />
+  
+      <MostrarReceitas :ingredientes="ingredientes" @retornandoEmCategorias="mudandoConteudo('SelecionarIngredientes')" v-else/>
 
-    <MostrarReceitas v-else/>
+    </keep-alive>
   </main>
 </template>
 
@@ -37,6 +40,8 @@ export default {
 
     mudandoConteudo(pagina: Pagina){
       this.conteudo = pagina;
+      console.log('Entrou');
+      
     }
   },
   components: { SelecionarIngredientes, SuaLista, MostrarReceitas },
